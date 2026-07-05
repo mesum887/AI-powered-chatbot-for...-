@@ -1,0 +1,6 @@
+{
+  "name": "StudyMind AI",
+  "description": "A modern AI-powered Study Assistant with an interactive tutor, PDF notes summarization, flashcards with spaced repetition, a Pomodoro timer, homework solver, and a beautiful progress dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
