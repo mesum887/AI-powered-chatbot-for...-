@@ -23,18 +23,18 @@ jobs:
         with:
           gradle-version: 9.3.1
 
-      - name: Generate Gradle Wrapper (if missing)
+      - name: 🔥 Generate Missing Debug Keystore (Auto-Fix)
         run: |
-          if [ ! -f gradlew ]; then
-            gradle wrapper
-          fi
-
-      - name: Make gradlew executable
-        run: chmod +x gradlew
+          keytool -genkey -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug, O=Android, C=US"
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug
 
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/debug/*.apk
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
