@@ -19,23 +19,24 @@ jobs:
           distribution: 'temurin'
 
       - name: Setup Gradle (9.3.1)
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 9.3.1
 
-      - name: 🔥 Generate Missing Debug Keystore (Auto-Fix)
+      - name: 🔥 1. Generate Missing gradlew script
+        run: gradle wrapper --gradle-version 9.3.1
+
+      - name: 🔥 2. Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: 🔥 3. Generate Missing Debug Keystore
         run: |
           keytool -genkey -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug, O=Android, C=US"
 
-      - name: Build Debug APK
+      - name: 4. Build Debug APK
         run: ./gradlew assembleDebug
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-debug
-          path: app/build/outputs/apk/debug/*.apk
-      - name: Upload APK
+      - name: 5. Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
